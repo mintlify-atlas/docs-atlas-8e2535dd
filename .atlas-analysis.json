@@ -1,0 +1,82 @@
+{
+  "projectType": "sdk-library",
+  "projectName": "Vue QR Style",
+  "projectDescription": "A Vue 3 component for generating highly customizable QR codes with download functionality",
+  "theme": "palm",
+  "primaryColor": "#848c8e",
+  "lightColor": "#11161e",
+  "darkColor": "#cfd0d2",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "installation",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Guide",
+            "pages": [
+              "guide/component-props",
+              "guide/styling-customization",
+              "guide/logo-embedding",
+              "guide/downloading",
+              "guide/examples"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Component",
+            "pages": [
+              "api/props",
+              "api/methods",
+              "api/types"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Highly customizable QR code generation with shape, dot, and corner styling",
+    "Logo embedding with smart background dot hiding",
+    "Gradient support for dots and backgrounds (linear and radial)",
+    "Multi-format download support (SVG, PNG, JPEG, WebP)",
+    "Full TypeScript support with comprehensive type definitions",
+    "Reactive updates with Vue 3 Composition API"
+  ],
+  "publicApiSurface": [
+    "QrCodeGenerator (default component export)",
+    "QrCodeGenerator.data (prop)",
+    "QrCodeGenerator.width (prop)",
+    "QrCodeGenerator.height (prop)",
+    "QrCodeGenerator.type (prop)",
+    "QrCodeGenerator.shape (prop)",
+    "QrCodeGenerator.margin (prop)",
+    "QrCodeGenerator.image (prop)",
+    "QrCodeGenerator.dotsOptions (prop)",
+    "QrCodeGenerator.backgroundOptions (prop)",
+    "QrCodeGenerator.cornersSquareOptions (prop)",
+    "QrCodeGenerator.cornersDotOptions (prop)",
+    "QrCodeGenerator.imageOptions (prop)",
+    "QrCodeGenerator.qrOptions (prop)",
+    "download() (exposed method)",
+    "getRawData() (exposed method)",
+    "DrawType (exported type)",
+    "DotType (exported type)",
+    "CornerSquareType (exported type)",
+    "CornerDotType (exported type)",
+    "FileExtension (exported type)",
+    "QRCodeStylingOptions (exported type)",
+    "DownloadOptions (exported type)"
+  ]
+}
