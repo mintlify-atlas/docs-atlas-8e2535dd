@@ -1,0 +1,128 @@
+---
+title: Installation
+description: How to install and set up Vue QR Style in your Vue 3 project
+---
+
+## Install the Package
+
+Vue QR Style requires both the main package and its peer dependency `qr-code-styling`:
+
+<CodeGroup>
+```bash npm
+npm install vue-qr-style qr-code-styling
+```
+
+```bash yarn
+yarn add vue-qr-style qr-code-styling
+```
+
+```bash pnpm
+pnpm add vue-qr-style qr-code-styling
+```
+</CodeGroup>
+
+<Note>
+  Vue QR Style requires Vue 3.0.0 or higher. Make sure your project is using Vue 3.
+</Note>
+
+## Setup Methods
+
+You can register Vue QR Style either globally (available in all components) or locally (imported where needed).
+
+### Global Registration
+
+Register the component globally to use it anywhere in your application without importing:
+
+```ts
+import { createApp } from "vue";
+import VueQrStyle from "vue-qr-style";
+import App from "./App.vue";
+
+const app = createApp(App);
+app.use(VueQrStyle);
+app.mount("#app");
+```
+
+Now you can use `<QrCodeGenerator>` in any component:
+
+```vue
+<template>
+  <QrCodeGenerator data="https://example.com" />
+</template>
+```
+
+### Local Registration
+
+Import the component only in the components where you need it:
+
+```vue
+<script setup>
+import { QrCodeGenerator } from "vue-qr-style";
+</script>
+
+<template>
+  <QrCodeGenerator data="https://example.com" />
+</template>
+```
+
+<Tip>
+  Local registration is recommended for better tree-shaking and smaller bundle sizes if you only use the component in a few places.
+</Tip>
+
+## TypeScript Setup
+
+Vue QR Style is built with TypeScript and includes comprehensive type definitions out of the box. No additional setup is required!
+
+### Using Types
+
+Import types for better IDE support and type safety:
+
+```ts
+import type {
+  DrawType,
+  DotType,
+  CornerSquareType,
+  CornerDotType,
+  FileExtension,
+  QRCodeStylingOptions,
+  DownloadOptions,
+} from "vue-qr-style";
+```
+
+### Component Ref Typing
+
+When using a ref to access component methods:
+
+```vue
+<script setup lang="ts">
+import { ref } from "vue";
+import { QrCodeGenerator } from "vue-qr-style";
+
+const qrRef = ref<InstanceType<typeof QrCodeGenerator> | null>(null);
+
+const handleDownload = () => {
+  qrRef.value?.download({ extension: "png", name: "my-qr" });
+};
+</script>
+
+<template>
+  <QrCodeGenerator ref="qrRef" data="https://example.com" />
+  <button @click="handleDownload">Download</button>
+</template>
+```
+
+## Peer Dependencies
+
+<Warning>
+  Vue QR Style requires `qr-code-styling` as a peer dependency. Make sure to install it alongside the main package, or you'll encounter runtime errors.
+</Warning>
+
+Required peer dependencies:
+- **vue**: ^3.0.0
+- **qr-code-styling**: Automatically installed when you follow the installation command above
+
+## Next Steps
+
+<Card title="Quickstart Guide" icon="rocket" href="/quickstart">
+  Learn how to create your first QR code with Vue QR Style
+</Card>

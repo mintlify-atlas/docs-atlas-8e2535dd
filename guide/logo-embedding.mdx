@@ -1,0 +1,280 @@
+---
+title: Logo embedding
+description: Add logos to your QR codes
+---
+
+Vue QR Style allows you to embed logos or images in the center of your QR codes, making them more branded and visually appealing while maintaining scannability.
+
+## Basic Logo Usage
+
+Add a logo to your QR code using the `image` prop:
+
+```vue
+<QrCodeGenerator
+  data="https://example.com"
+  image="https://vuejs.org/images/logo.png"
+/>
+```
+
+The image will be automatically centered and sized appropriately for the QR code.
+
+## Image Options
+
+Customize how the logo appears using the `imageOptions` prop:
+
+```vue
+<QrCodeGenerator
+  data="https://example.com"
+  image="https://vuejs.org/images/logo.png"
+  :imageOptions="{
+    hideBackgroundDots: true,
+    imageSize: 0.4,
+    margin: 0
+  }"
+/>
+```
+
+### Available Image Options
+
+<ParamField path="hideBackgroundDots" type="boolean" default="true">
+  Controls whether QR code dots behind the logo are hidden. Setting this to `true` improves logo visibility and prevents visual clutter.
+  
+  ```vue
+  <QrCodeGenerator
+    image="logo.png"
+    :imageOptions="{ hideBackgroundDots: true }"
+  />
+  ```
+</ParamField>
+
+<ParamField path="imageSize" type="number" default="0.4">
+  Size coefficient of the image relative to the QR code dimensions. Value ranges from 0 to 1.
+  
+  - `0.3` - Small logo (30% of QR code)
+  - `0.4` - Medium logo (40% of QR code, default)
+  - `0.5` - Large logo (50% of QR code)
+  
+  ```vue
+  <QrCodeGenerator
+    image="logo.png"
+    :imageOptions="{ imageSize: 0.5 }"
+  />
+  ```
+</ParamField>
+
+<ParamField path="margin" type="number" default="0">
+  Margin around the logo in pixels. Creates spacing between the logo and QR code dots.
+  
+  ```vue
+  <QrCodeGenerator
+    image="logo.png"
+    :imageOptions="{ margin: 5 }"
+  />
+  ```
+</ParamField>
+
+<ParamField path="crossOrigin" type="string">
+  CORS policy for loading external images. Required when using images from different domains.
+  
+  ```vue
+  <QrCodeGenerator
+    image="https://external-site.com/logo.png"
+    :imageOptions="{ crossOrigin: 'anonymous' }"
+  />
+  ```
+</ParamField>
+
+<ParamField path="saveAsBlob" type="boolean">
+  Whether to save the image as a blob when downloading the QR code.
+  
+  ```vue
+  <QrCodeGenerator
+    image="logo.png"
+    :imageOptions="{ saveAsBlob: true }"
+  />
+  ```
+</ParamField>
+
+## Hide Background Dots
+
+The `hideBackgroundDots` feature is essential for logo visibility. When enabled (default), it removes QR code dots in the area behind your logo:
+
+```vue
+<!-- With hidden dots (cleaner logo) -->
+<QrCodeGenerator
+  data="https://example.com"
+  image="logo.png"
+  :imageOptions="{ hideBackgroundDots: true }"
+/>
+
+<!-- Without hidden dots (logo may be obscured) -->
+<QrCodeGenerator
+  data="https://example.com"
+  image="logo.png"
+  :imageOptions="{ hideBackgroundDots: false }"
+/>
+```
+
+<Tip>
+  Keeping `hideBackgroundDots: true` (default) provides the best visual results and maintains QR code scannability.
+</Tip>
+
+## Image Size and Margin
+
+Balance logo size with QR code scannability:
+
+```vue
+<QrCodeGenerator
+  data="https://example.com"
+  image="logo.png"
+  :imageOptions="{
+    imageSize: 0.4,  // 40% of QR code size
+    margin: 10       // 10px spacing around logo
+  }"
+/>
+```
+
+### Recommended Sizes
+
+- **Small logos (0.2-0.3)**: Best for detailed QR codes with lots of data
+- **Medium logos (0.3-0.4)**: Balanced visibility and scannability (recommended)
+- **Large logos (0.4-0.5)**: Maximum brand visibility, use with higher error correction
+
+<Warning>
+  Logos larger than 0.5 (50%) may compromise QR code scannability. Always test your QR codes after adding logos.
+</Warning>
+
+## CORS Considerations
+
+When using external images (images hosted on different domains), you need to configure CORS:
+
+```vue
+<QrCodeGenerator
+  data="https://example.com"
+  image="https://cdn.example.com/logo.png"
+  :imageOptions="{
+    crossOrigin: 'anonymous'
+  }"
+/>
+```
+
+### Common CORS Values
+
+- `'anonymous'`: Request without credentials (most common)
+- `'use-credentials'`: Request with credentials
+
+<Note>
+  If you encounter CORS errors, ensure the image server allows cross-origin requests or use a proxy/self-hosted image.
+</Note>
+
+## Real Example from Demo
+
+Here's how the Vue QR Style demo app implements logo embedding:
+
+```vue
+<template>
+  <div>
+    <QrCodeGenerator
+      ref="qrGenerator"
+      :data="qrOptions.data"
+      :width="qrOptions.width"
+      :height="qrOptions.height"
+      :image="qrOptions.image"
+    />
+    
+    <button @click="setVueLogo">Add Vue Logo</button>
+  </div>
+</template>
+
+<script setup>
+import { ref, reactive } from 'vue';
+import { QrCodeGenerator } from 'vue-qr-style';
+
+const qrGenerator = ref(null);
+
+const qrOptions = reactive({
+  data: 'https://github.com/jdavidoa91/vue-qr-style',
+  width: 400,
+  height: 400,
+  image: ''
+});
+
+const setVueLogo = () => {
+  qrOptions.image = 'https://vuejs.org/images/logo.png';
+};
+</script>
+```
+
+## Dynamic Logo Updates
+
+You can change the logo dynamically, and the QR code will update reactively:
+
+```vue
+<template>
+  <div>
+    <QrCodeGenerator
+      data="https://example.com"
+      :image="selectedLogo"
+      :imageOptions="imageConfig"
+    />
+    
+    <select v-model="selectedLogo">
+      <option value="">No Logo</option>
+      <option value="logo1.png">Logo 1</option>
+      <option value="logo2.png">Logo 2</option>
+    </select>
+  </div>
+</template>
+
+<script setup>
+import { ref, reactive } from 'vue';
+import { QrCodeGenerator } from 'vue-qr-style';
+
+const selectedLogo = ref('');
+
+const imageConfig = reactive({
+  hideBackgroundDots: true,
+  imageSize: 0.4,
+  margin: 5
+});
+</script>
+```
+
+## Best Practices
+
+1. **Use High-Quality Images**: SVG or PNG with transparent backgrounds work best
+2. **Test Scannability**: Always test with real QR scanners after adding a logo
+3. **Increase Error Correction**: Use `errorCorrectionLevel: 'H'` when adding logos:
+
+   ```vue
+   <QrCodeGenerator
+     data="https://example.com"
+     image="logo.png"
+     :qrOptions="{ errorCorrectionLevel: 'H' }"
+   />
+   ```
+
+4. **Keep Logos Simple**: Simple, high-contrast logos work better than complex images
+5. **Self-Host When Possible**: Avoid CORS issues by hosting images on your own domain
+
+## Error Correction Levels
+
+When embedding logos, higher error correction allows more of the QR code to be covered:
+
+```vue
+<QrCodeGenerator
+  data="https://example.com"
+  image="logo.png"
+  :qrOptions="{
+    errorCorrectionLevel: 'H'  // ~30% correction
+  }"
+  :imageOptions="{
+    imageSize: 0.5  // Can use larger logo with high correction
+  }"
+/>
+```
+
+- **L**: ~7% correction - Use for QR codes without logos
+- **M**: ~15% correction - Small logos only
+- **Q**: ~25% correction - Medium logos (default)
+- **H**: ~30% correction - Larger logos, recommended for branding

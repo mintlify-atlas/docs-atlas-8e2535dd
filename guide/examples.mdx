@@ -1,0 +1,421 @@
+---
+title: Examples
+description: Common QR code customization patterns
+---
+
+Explore real-world examples of QR code customization patterns using Vue QR Style. All examples are production-ready and can be copied directly into your project.
+
+## Basic QR Code
+
+A simple, clean QR code with minimal customization:
+
+```vue
+<template>
+  <QrCodeGenerator
+    data="https://example.com"
+    :width="300"
+    :height="300"
+  />
+</template>
+
+<script setup>
+import { QrCodeGenerator } from 'vue-qr-style';
+</script>
+```
+
+This creates a standard black and white QR code, perfect for basic use cases.
+
+## Branded QR Code
+
+Customize colors and shapes to match your brand identity:
+
+```vue
+<template>
+  <QrCodeGenerator
+    data="https://github.com/jdavidoa91/vue-qr-style"
+    :width="400"
+    :height="400"
+    :margin="10"
+    shape="square"
+    :dotsOptions="{
+      type: 'rounded',
+      color: '#3eaf7c'
+    }"
+    :backgroundOptions="{
+      color: '#ffffff'
+    }"
+    :cornersSquareOptions="{
+      type: 'extra-rounded',
+      color: '#3eaf7c'
+    }"
+    :cornersDotOptions="{
+      type: 'dot',
+      color: '#2c3e50'
+    }"
+  />
+</template>
+
+<script setup>
+import { QrCodeGenerator } from 'vue-qr-style';
+</script>
+```
+
+This example uses:
+- Rounded dots for a modern look
+- Custom brand colors (#3eaf7c and #2c3e50)
+- Extra-rounded corners for visual appeal
+- 10px margin for scanning reliability
+
+## Gradient QR Code
+
+Create an eye-catching QR code with linear gradients:
+
+```vue
+<template>
+  <QrCodeGenerator
+    data="https://example.com"
+    :width="400"
+    :height="400"
+    :margin="10"
+    :dotsOptions="{
+      type: 'rounded',
+      gradient: {
+        type: 'linear',
+        rotation: 45,
+        colorStops: [
+          { offset: 0, color: '#667eea' },
+          { offset: 1, color: '#764ba2' }
+        ]
+      }
+    }"
+    :cornersSquareOptions="{
+      type: 'extra-rounded',
+      gradient: {
+        type: 'linear',
+        rotation: 45,
+        colorStops: [
+          { offset: 0, color: '#f093fb' },
+          { offset: 1, color: '#f5576c' }
+        ]
+      }
+    }"
+    :backgroundOptions="{
+      color: '#ffffff'
+    }"
+  />
+</template>
+
+<script setup>
+import { QrCodeGenerator } from 'vue-qr-style';
+</script>
+```
+
+Features:
+- Purple gradient on dots (667eea to 764ba2)
+- Pink gradient on corners (f093fb to f5576c)
+- 45-degree rotation for diagonal gradient effect
+- White background for high contrast
+
+## Logo-Embedded QR Code
+
+Add your brand logo in the center of the QR code:
+
+```vue
+<template>
+  <QrCodeGenerator
+    data="https://vuejs.org"
+    :width="400"
+    :height="400"
+    :margin="10"
+    image="https://vuejs.org/images/logo.png"
+    :imageOptions="{
+      hideBackgroundDots: true,
+      imageSize: 0.4,
+      margin: 0
+    }"
+    :dotsOptions="{
+      type: 'rounded',
+      color: '#42b983'
+    }"
+    :cornersSquareOptions="{
+      type: 'extra-rounded',
+      color: '#42b983'
+    }"
+    :backgroundOptions="{
+      color: '#ffffff'
+    }"
+    :qrOptions="{
+      errorCorrectionLevel: 'H'
+    }"
+  />
+</template>
+
+<script setup>
+import { QrCodeGenerator } from 'vue-qr-style';
+</script>
+```
+
+Key features:
+- Vue logo centered in the QR code
+- Background dots hidden behind logo for clarity
+- High error correction level (H) for better scannability with logo
+- Logo size set to 40% of QR code size
+
+## Circular QR Code
+
+Create a modern circular QR code:
+
+```vue
+<template>
+  <QrCodeGenerator
+    data="https://example.com"
+    :width="400"
+    :height="400"
+    :margin="10"
+    shape="circle"
+    :dotsOptions="{
+      type: 'dots',
+      color: '#2563eb'
+    }"
+    :cornersSquareOptions="{
+      type: 'dot',
+      color: '#1e40af'
+    }"
+    :cornersDotOptions="{
+      type: 'dot',
+      color: '#1e3a8a'
+    }"
+    :backgroundOptions="{
+      color: '#eff6ff'
+    }"
+  />
+</template>
+
+<script setup>
+import { QrCodeGenerator } from 'vue-qr-style';
+</script>
+```
+
+This example showcases:
+- Circular overall shape
+- Circular dots for consistency
+- Blue color scheme with subtle variations
+- Light blue background for softer appearance
+
+## Radial Gradient QR Code
+
+Use a radial gradient for a unique center-focused design:
+
+```vue
+<template>
+  <QrCodeGenerator
+    data="https://example.com"
+    :width="400"
+    :height="400"
+    :margin="10"
+    :dotsOptions="{
+      type: 'rounded',
+      gradient: {
+        type: 'radial',
+        colorStops: [
+          { offset: 0, color: '#fbbf24' },
+          { offset: 0.5, color: '#f59e0b' },
+          { offset: 1, color: '#d97706' }
+        ]
+      }
+    }"
+    :cornersSquareOptions="{
+      type: 'extra-rounded',
+      color: '#d97706'
+    }"
+    :backgroundOptions="{
+      color: '#fffbeb'
+    }"
+  />
+</template>
+
+<script setup>
+import { QrCodeGenerator } from 'vue-qr-style';
+</script>
+```
+
+Features:
+- Radial gradient from center outward
+- Warm amber color scheme
+- Three color stops for smooth transition
+- Matching corner color for cohesion
+
+## Interactive QR Code with Download
+
+Complete example with customization controls and download functionality:
+
+```vue
+<template>
+  <div class="qr-container">
+    <QrCodeGenerator
+      ref="qrGenerator"
+      :data="qrData"
+      :width="400"
+      :height="400"
+      :margin="margin"
+      :shape="shape"
+      :dotsOptions="dotsOptions"
+      :backgroundOptions="backgroundOptions"
+      :cornersSquareOptions="cornersSquareOptions"
+    />
+    
+    <div class="controls">
+      <input 
+        v-model="qrData" 
+        type="text" 
+        placeholder="Enter URL or text"
+      />
+      
+      <select v-model="shape">
+        <option value="square">Square</option>
+        <option value="circle">Circle</option>
+      </select>
+      
+      <input 
+        v-model="dotsOptions.color" 
+        type="color"
+      />
+      
+      <button @click="downloadQR">Download PNG</button>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, reactive } from 'vue';
+import { QrCodeGenerator } from 'vue-qr-style';
+
+const qrGenerator = ref(null);
+const qrData = ref('https://example.com');
+const shape = ref('square');
+const margin = ref(10);
+
+const dotsOptions = reactive({
+  type: 'rounded',
+  color: '#3eaf7c'
+});
+
+const backgroundOptions = reactive({
+  color: '#ffffff'
+});
+
+const cornersSquareOptions = reactive({
+  type: 'extra-rounded',
+  color: '#3eaf7c'
+});
+
+const downloadQR = () => {
+  qrGenerator.value?.download({
+    extension: 'png',
+    name: 'my-qr-code'
+  });
+};
+</script>
+
+<style scoped>
+.qr-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+input, select, button {
+  padding: 8px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+}
+
+button {
+  background: #3eaf7c;
+  color: white;
+  cursor: pointer;
+}
+</style>
+```
+
+This comprehensive example includes:
+- Dynamic QR data updates
+- Shape selection (square/circle)
+- Color picker for customization
+- Download functionality
+- Reactive updates on all changes
+
+## High-Resolution Print QR Code
+
+Optimized for printing with SVG format and high error correction:
+
+```vue
+<template>
+  <div>
+    <QrCodeGenerator
+      ref="qrGenerator"
+      data="https://example.com"
+      :width="800"
+      :height="800"
+      :margin="40"
+      type="svg"
+      :dotsOptions="{
+        type: 'square',
+        color: '#000000'
+      }"
+      :backgroundOptions="{
+        color: '#ffffff'
+      }"
+      :qrOptions="{
+        errorCorrectionLevel: 'H'
+      }"
+    />
+    
+    <button @click="downloadForPrint">
+      Download for Print (SVG)
+    </button>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import { QrCodeGenerator } from 'vue-qr-style';
+
+const qrGenerator = ref(null);
+
+const downloadForPrint = () => {
+  qrGenerator.value?.download({
+    extension: 'svg',
+    name: 'qr-code-print'
+  });
+};
+</script>
+```
+
+Print-optimized features:
+- Large dimensions (800x800) for high resolution
+- SVG format for infinite scalability
+- High error correction level
+- Classic black on white for maximum contrast
+- Larger margin (40px) for safe printing
+
+## Tips for Custom Examples
+
+<Tip>
+  Always test QR codes with multiple scanner apps before production use, especially when using gradients or logos.
+</Tip>
+
+<Note>
+  When combining multiple customizations (gradients + logos + custom shapes), use `errorCorrectionLevel: 'H'` for best results.
+</Note>
+
+<Warning>
+  Avoid using low-contrast color combinations (like light gray on white) as they may not scan reliably.
+</Warning>

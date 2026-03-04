@@ -1,0 +1,312 @@
+---
+title: Component props
+description: All available props for QrCodeGenerator
+---
+
+The `QrCodeGenerator` component accepts various props to customize your QR codes. Props are organized into categories for easier reference.
+
+## Basic Props
+
+<ParamField path="data" type="string" required>
+  The content of the QR code. This is the data that will be encoded when someone scans the QR code (URL, text, etc.).
+  
+  ```vue
+  <QrCodeGenerator data="https://github.com/jdavidoa91/vue-qr-style" />
+  ```
+</ParamField>
+
+<ParamField path="width" type="number" default="300">
+  Width of the QR code in pixels.
+  
+  ```vue
+  <QrCodeGenerator data="..." :width="400" />
+  ```
+</ParamField>
+
+<ParamField path="height" type="number" default="300">
+  Height of the QR code in pixels.
+  
+  ```vue
+  <QrCodeGenerator data="..." :height="400" />
+  ```
+</ParamField>
+
+<ParamField path="type" type="'canvas' | 'svg'" default="'canvas'">
+  Drawing type for the QR code. SVG is recommended for high resolution and scalability.
+  
+  ```vue
+  <QrCodeGenerator data="..." type="svg" />
+  ```
+</ParamField>
+
+<ParamField path="shape" type="'square' | 'circle'" default="'square'">
+  The overall shape of the QR code.
+  
+  ```vue
+  <QrCodeGenerator data="..." shape="circle" />
+  ```
+</ParamField>
+
+<ParamField path="margin" type="number" default="0">
+  Margin around the QR code cells in pixels.
+  
+  ```vue
+  <QrCodeGenerator data="..." :margin="10" />
+  ```
+</ParamField>
+
+## QR Options
+
+<ParamField path="qrOptions" type="object">
+  Configuration for the QR code generation algorithm.
+  
+  <Expandable title="properties">
+    <ParamField path="qrOptions.typeNumber" type="TypeNumber" default="0">
+      Type number (0-40) for the QR code. 0 means auto-detect.
+    </ParamField>
+    
+    <ParamField path="qrOptions.mode" type="Mode" default="'Byte'">
+      Encoding mode for the QR code data.
+    </ParamField>
+    
+    <ParamField path="qrOptions.errorCorrectionLevel" type="'L' | 'M' | 'Q' | 'H'" default="'Q'">
+      Error correction level. Higher levels allow the QR code to be read even if partially damaged.
+      - `L`: ~7% correction
+      - `M`: ~15% correction
+      - `Q`: ~25% correction
+      - `H`: ~30% correction
+    </ParamField>
+  </Expandable>
+  
+  ```vue
+  <QrCodeGenerator
+    data="..."
+    :qrOptions="{
+      errorCorrectionLevel: 'H',
+      mode: 'Byte'
+    }"
+  />
+  ```
+</ParamField>
+
+## Dots Options
+
+<ParamField path="dotsOptions" type="object">
+  Styling options for the QR code dots (the data modules).
+  
+  <Expandable title="properties">
+    <ParamField path="dotsOptions.type" type="DotType" default="'square'">
+      Shape of the dots. Available types:
+      - `square`: Standard square dots
+      - `dots`: Circular dots
+      - `rounded`: Rounded square dots
+      - `extra-rounded`: Extra rounded square dots
+      - `classy`: Classy style dots
+      - `classy-rounded`: Classy rounded style dots
+    </ParamField>
+    
+    <ParamField path="dotsOptions.color" type="string" default="'#000000'">
+      Solid color of the dots in hex format.
+    </ParamField>
+    
+    <ParamField path="dotsOptions.gradient" type="object">
+      Gradient configuration for dots.
+      
+      <Expandable title="gradient properties">
+        <ParamField path="type" type="'linear' | 'radial'" required>
+          Type of gradient.
+        </ParamField>
+        
+        <ParamField path="rotation" type="number">
+          Rotation angle in degrees (for linear gradients).
+        </ParamField>
+        
+        <ParamField path="colorStops" type="Array<{offset: number, color: string}>" required>
+          Array of color stops. Offset is between 0 and 1.
+        </ParamField>
+      </Expandable>
+    </ParamField>
+  </Expandable>
+  
+  ```vue
+  <QrCodeGenerator
+    data="..."
+    :dotsOptions="{
+      type: 'rounded',
+      color: '#3eaf7c'
+    }"
+  />
+  ```
+</ParamField>
+
+## Background Options
+
+<ParamField path="backgroundOptions" type="object">
+  Styling options for the QR code background.
+  
+  <Expandable title="properties">
+    <ParamField path="backgroundOptions.color" type="string" default="'#ffffff'">
+      Solid background color in hex format.
+    </ParamField>
+    
+    <ParamField path="backgroundOptions.gradient" type="object">
+      Gradient configuration for background. Same structure as `dotsOptions.gradient`.
+    </ParamField>
+  </Expandable>
+  
+  ```vue
+  <QrCodeGenerator
+    data="..."
+    :backgroundOptions="{
+      color: '#f8fafc'
+    }"
+  />
+  ```
+</ParamField>
+
+## Corners Square Options
+
+<ParamField path="cornersSquareOptions" type="object">
+  Styling options for the corner squares (the three large squares in the corners).
+  
+  <Expandable title="properties">
+    <ParamField path="cornersSquareOptions.type" type="CornerSquareType">
+      Shape of the corner squares:
+      - `square`: Standard square corners
+      - `dot`: Circular corners
+      - `extra-rounded`: Extra rounded corners
+    </ParamField>
+    
+    <ParamField path="cornersSquareOptions.color" type="string">
+      Solid color of the corner squares.
+    </ParamField>
+    
+    <ParamField path="cornersSquareOptions.gradient" type="object">
+      Gradient configuration for corner squares. Same structure as `dotsOptions.gradient`.
+    </ParamField>
+  </Expandable>
+  
+  ```vue
+  <QrCodeGenerator
+    data="..."
+    :cornersSquareOptions="{
+      type: 'extra-rounded',
+      color: '#3eaf7c'
+    }"
+  />
+  ```
+</ParamField>
+
+## Corners Dot Options
+
+<ParamField path="cornersDotOptions" type="object">
+  Styling options for the dots inside the corner squares.
+  
+  <Expandable title="properties">
+    <ParamField path="cornersDotOptions.type" type="CornerDotType">
+      Shape of the corner dots:
+      - `square`: Square dots
+      - `dot`: Circular dots
+    </ParamField>
+    
+    <ParamField path="cornersDotOptions.color" type="string">
+      Solid color of the corner dots.
+    </ParamField>
+    
+    <ParamField path="cornersDotOptions.gradient" type="object">
+      Gradient configuration for corner dots. Same structure as `dotsOptions.gradient`.
+    </ParamField>
+  </Expandable>
+  
+  ```vue
+  <QrCodeGenerator
+    data="..."
+    :cornersDotOptions="{
+      type: 'dot',
+      color: '#2c3e50'
+    }"
+  />
+  ```
+</ParamField>
+
+## Image Options
+
+<ParamField path="image" type="string">
+  URL or path to an image/logo to display in the center of the QR code.
+  
+  ```vue
+  <QrCodeGenerator
+    data="..."
+    image="https://vuejs.org/images/logo.png"
+  />
+  ```
+</ParamField>
+
+<ParamField path="imageOptions" type="object">
+  Configuration for the center image/logo.
+  
+  <Expandable title="properties">
+    <ParamField path="imageOptions.hideBackgroundDots" type="boolean" default="true">
+      Whether to hide QR dots behind the image for better visibility.
+    </ParamField>
+    
+    <ParamField path="imageOptions.imageSize" type="number" default="0.4">
+      Size coefficient of the image relative to the QR code (0 to 1).
+    </ParamField>
+    
+    <ParamField path="imageOptions.margin" type="number" default="0">
+      Margin around the image in pixels.
+    </ParamField>
+    
+    <ParamField path="imageOptions.crossOrigin" type="string">
+      CORS policy for loading the image. Use `'anonymous'` for external images.
+    </ParamField>
+    
+    <ParamField path="imageOptions.saveAsBlob" type="boolean">
+      Whether to save the image as a blob for download.
+    </ParamField>
+  </Expandable>
+  
+  ```vue
+  <QrCodeGenerator
+    data="..."
+    image="https://vuejs.org/images/logo.png"
+    :imageOptions="{
+      hideBackgroundDots: true,
+      imageSize: 0.4,
+      margin: 0
+    }"
+  />
+  ```
+</ParamField>
+
+## Complete Example
+
+Here's a real example from the Vue QR Style demo app:
+
+```vue
+<template>
+  <QrCodeGenerator
+    data="https://github.com/jdavidoa91/vue-qr-style"
+    :width="400"
+    :height="400"
+    :margin="10"
+    shape="square"
+    :dotsOptions="{
+      type: 'rounded',
+      color: '#3eaf7c'
+    }"
+    :backgroundOptions="{
+      color: '#ffffff'
+    }"
+    :cornersSquareOptions="{
+      type: 'extra-rounded',
+      color: '#3eaf7c'
+    }"
+    :cornersDotOptions="{
+      type: 'dot',
+      color: '#2c3e50'
+    }"
+  />
+</template>
+```

@@ -1,0 +1,216 @@
+---
+title: Props
+description: QrCodeGenerator component props reference
+---
+
+Complete reference for all props available in the `QrCodeGenerator` component.
+
+## Basic Props
+
+<ParamField path="data" type="string" required>
+  The data to encode in the QR code. Can be a URL, text, or any string value.
+</ParamField>
+
+<ParamField path="width" type="number" default={300}>
+  Width of the QR code in pixels.
+</ParamField>
+
+<ParamField path="height" type="number" default={300}>
+  Height of the QR code in pixels.
+</ParamField>
+
+<ParamField path="type" type="DrawType" default="canvas">
+  Rendering type for the QR code. Can be `"canvas"` or `"svg"`.
+</ParamField>
+
+<ParamField path="shape" type="'square' | 'circle'" default="square">
+  Overall shape of the QR code.
+</ParamField>
+
+<ParamField path="margin" type="number" default={0}>
+  Margin around the QR code in pixels.
+</ParamField>
+
+<ParamField path="image" type="string">
+  URL or data URI of an image to display in the center of the QR code.
+</ParamField>
+
+## qrOptions
+
+<ParamField path="qrOptions" type="object">
+  Configuration for QR code generation algorithm.
+  
+  <Expandable title="properties">
+    <ParamField path="typeNumber" type="TypeNumber" default={0}>
+      QR code version (0-40). 0 means auto-detect the optimal version.
+    </ParamField>
+    
+    <ParamField path="mode" type="Mode" default="Byte">
+      Encoding mode. Options: `"Numeric"`, `"Alphanumeric"`, `"Byte"`, `"Kanji"`.
+    </ParamField>
+    
+    <ParamField path="errorCorrectionLevel" type="ErrorCorrectionLevel" default="Q">
+      Error correction level. Options: `"L"` (7%), `"M"` (15%), `"Q"` (25%), `"H"` (30%).
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## dotsOptions
+
+<ParamField path="dotsOptions" type="object">
+  Styling options for QR code dots/pixels.
+  
+  <Expandable title="properties">
+    <ParamField path="type" type="DotType" default="square">
+      Shape of the dots. Options: `"square"`, `"dots"`, `"rounded"`, `"extra-rounded"`, `"classy"`, `"classy-rounded"`.
+    </ParamField>
+    
+    <ParamField path="color" type="string" default="#000000">
+      Solid color for the dots (hex, rgb, rgba).
+    </ParamField>
+    
+    <ParamField path="gradient" type="object">
+      Gradient configuration for the dots. Alternative to solid color.
+      
+      <Expandable title="properties">
+        <ParamField path="type" type="'radial' | 'linear'" required>
+          Type of gradient.
+        </ParamField>
+        
+        <ParamField path="rotation" type="number">
+          Rotation angle in degrees (for linear gradients).
+        </ParamField>
+        
+        <ParamField path="colorStops" type="Array<{offset: number, color: string}>" required>
+          Array of color stops. Each stop has an `offset` (0-1) and `color` (hex, rgb, rgba).
+        </ParamField>
+      </Expandable>
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## backgroundOptions
+
+<ParamField path="backgroundOptions" type="object">
+  Styling options for the QR code background.
+  
+  <Expandable title="properties">
+    <ParamField path="color" type="string" default="#ffffff">
+      Solid color for the background (hex, rgb, rgba).
+    </ParamField>
+    
+    <ParamField path="gradient" type="object">
+      Gradient configuration for the background. Alternative to solid color.
+      
+      <Expandable title="properties">
+        <ParamField path="type" type="'radial' | 'linear'" required>
+          Type of gradient.
+        </ParamField>
+        
+        <ParamField path="rotation" type="number">
+          Rotation angle in degrees (for linear gradients).
+        </ParamField>
+        
+        <ParamField path="colorStops" type="Array<{offset: number, color: string}>" required>
+          Array of color stops. Each stop has an `offset` (0-1) and `color` (hex, rgb, rgba).
+        </ParamField>
+      </Expandable>
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## cornersSquareOptions
+
+<ParamField path="cornersSquareOptions" type="object">
+  Styling options for the square patterns in the QR code corners.
+  
+  <Expandable title="properties">
+    <ParamField path="type" type="CornerSquareType">
+      Shape of the corner squares. Options: `"square"`, `"extra-rounded"`, `"dot"`.
+    </ParamField>
+    
+    <ParamField path="color" type="string">
+      Solid color for the corner squares (hex, rgb, rgba).
+    </ParamField>
+    
+    <ParamField path="gradient" type="object">
+      Gradient configuration for the corner squares. Alternative to solid color.
+      
+      <Expandable title="properties">
+        <ParamField path="type" type="'radial' | 'linear'" required>
+          Type of gradient.
+        </ParamField>
+        
+        <ParamField path="rotation" type="number">
+          Rotation angle in degrees (for linear gradients).
+        </ParamField>
+        
+        <ParamField path="colorStops" type="Array<{offset: number, color: string}>" required>
+          Array of color stops. Each stop has an `offset` (0-1) and `color` (hex, rgb, rgba).
+        </ParamField>
+      </Expandable>
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## cornersDotOptions
+
+<ParamField path="cornersDotOptions" type="object">
+  Styling options for the dots inside corner squares.
+  
+  <Expandable title="properties">
+    <ParamField path="type" type="CornerDotType">
+      Shape of the corner dots. Options: `"square"`, `"dot"`.
+    </ParamField>
+    
+    <ParamField path="color" type="string">
+      Solid color for the corner dots (hex, rgb, rgba).
+    </ParamField>
+    
+    <ParamField path="gradient" type="object">
+      Gradient configuration for the corner dots. Alternative to solid color.
+      
+      <Expandable title="properties">
+        <ParamField path="type" type="'radial' | 'linear'" required>
+          Type of gradient.
+        </ParamField>
+        
+        <ParamField path="rotation" type="number">
+          Rotation angle in degrees (for linear gradients).
+        </ParamField>
+        
+        <ParamField path="colorStops" type="Array<{offset: number, color: string}>" required>
+          Array of color stops. Each stop has an `offset` (0-1) and `color` (hex, rgb, rgba).
+        </ParamField>
+      </Expandable>
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## imageOptions
+
+<ParamField path="imageOptions" type="object">
+  Configuration for the center image logo.
+  
+  <Expandable title="properties">
+    <ParamField path="hideBackgroundDots" type="boolean" default={true}>
+      Whether to hide QR code dots behind the image.
+    </ParamField>
+    
+    <ParamField path="imageSize" type="number" default={0.4}>
+      Size of the image relative to QR code size (0-1).
+    </ParamField>
+    
+    <ParamField path="margin" type="number" default={0}>
+      Margin around the image in pixels.
+    </ParamField>
+    
+    <ParamField path="crossOrigin" type="string">
+      CORS setting for loading external images. Options: `"anonymous"`, `"use-credentials"`.
+    </ParamField>
+    
+    <ParamField path="saveAsBlob" type="boolean">
+      Whether to save the image as a blob for better performance.
+    </ParamField>
+  </Expandable>
+</ParamField>

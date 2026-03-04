@@ -1,0 +1,306 @@
+---
+title: Styling customization
+description: Customize QR code appearance
+---
+
+Vue QR Style provides extensive customization options to make your QR codes match your brand identity. You can customize shapes, colors, dot types, corners, backgrounds, and even apply gradients.
+
+## QR Code Shapes
+
+The component supports two overall shapes for your QR code:
+
+### Square (Default)
+
+```vue
+<QrCodeGenerator
+  data="https://example.com"
+  shape="square"
+/>
+```
+
+### Circle
+
+```vue
+<QrCodeGenerator
+  data="https://example.com"
+  shape="circle"
+/>
+```
+
+Circular QR codes have a modern, distinctive look that stands out while maintaining scannability.
+
+## Dot Types
+
+The dots (data modules) of your QR code can be styled in various ways using the `dotsOptions.type` prop:
+
+```vue
+<QrCodeGenerator
+  data="https://example.com"
+  :dotsOptions="{ type: 'rounded' }"
+/>
+```
+
+### Available Dot Types
+
+- **square** - Standard square dots (default)
+- **dots** - Circular dots
+- **rounded** - Rounded square dots
+- **extra-rounded** - Extra rounded square dots
+- **classy** - Classy style with unique shapes
+- **classy-rounded** - Classy style with rounded edges
+
+### Example from Demo App
+
+```vue
+<QrCodeGenerator
+  data="https://github.com/jdavidoa91/vue-qr-style"
+  :dotsOptions="{
+    type: 'rounded',
+    color: '#3eaf7c'
+  }"
+/>
+```
+
+## Dot Colors
+
+Set a solid color for your QR code dots:
+
+```vue
+<QrCodeGenerator
+  data="https://example.com"
+  :dotsOptions="{
+    type: 'rounded',
+    color: '#3eaf7c'
+  }"
+/>
+```
+
+<Note>
+  Use hex color codes for consistent color rendering across different devices and browsers.
+</Note>
+
+## Corner Customization
+
+QR codes have three distinctive corner squares that help scanners identify the code. You can customize both the outer square and the inner dot separately.
+
+### Corner Squares
+
+Customize the outer corner squares with `cornersSquareOptions`:
+
+```vue
+<QrCodeGenerator
+  data="https://example.com"
+  :cornersSquareOptions="{
+    type: 'extra-rounded',
+    color: '#3eaf7c'
+  }"
+/>
+```
+
+**Available corner square types:**
+- `square` - Standard square corners
+- `dot` - Circular corners
+- `extra-rounded` - Extra rounded corners
+
+### Corner Dots
+
+Customize the dots inside the corner squares with `cornersDotOptions`:
+
+```vue
+<QrCodeGenerator
+  data="https://example.com"
+  :cornersDotOptions="{
+    type: 'dot',
+    color: '#2c3e50'
+  }"
+/>
+```
+
+**Available corner dot types:**
+- `square` - Square dots
+- `dot` - Circular dots
+
+### Complete Corner Example
+
+```vue
+<QrCodeGenerator
+  data="https://github.com/jdavidoa91/vue-qr-style"
+  :cornersSquareOptions="{
+    type: 'extra-rounded',
+    color: '#3eaf7c'
+  }"
+  :cornersDotOptions="{
+    type: 'dot',
+    color: '#2c3e50'
+  }"
+/>
+```
+
+## Background Options
+
+Customize the background color and add margins:
+
+```vue
+<QrCodeGenerator
+  data="https://example.com"
+  :margin="10"
+  :backgroundOptions="{
+    color: '#f8fafc'
+  }"
+/>
+```
+
+The `margin` prop adds spacing around the QR code, which is important for reliable scanning.
+
+<Tip>
+  A margin of 10-20 pixels is recommended for optimal scanning reliability.
+</Tip>
+
+## Gradient Support
+
+Vue QR Style supports both linear and radial gradients for dots, corners, and backgrounds.
+
+### Linear Gradients
+
+Create a linear gradient with the `gradient` property:
+
+```vue
+<QrCodeGenerator
+  data="https://example.com"
+  :dotsOptions="{
+    gradient: {
+      type: 'linear',
+      rotation: 45,
+      colorStops: [
+        { offset: 0, color: '#3eaf7c' },
+        { offset: 1, color: '#2c3e50' }
+      ]
+    }
+  }"
+/>
+```
+
+**Properties:**
+- `type`: `'linear'`
+- `rotation`: Angle in degrees (0-360)
+- `colorStops`: Array of color stops with `offset` (0-1) and `color` (hex)
+
+### Radial Gradients
+
+Create a radial gradient from the center:
+
+```vue
+<QrCodeGenerator
+  data="https://example.com"
+  :dotsOptions="{
+    gradient: {
+      type: 'radial',
+      colorStops: [
+        { offset: 0, color: '#ffffff' },
+        { offset: 0.5, color: '#3eaf7c' },
+        { offset: 1, color: '#2c3e50' }
+      ]
+    }
+  }"
+/>
+```
+
+### Gradient on Background
+
+You can also apply gradients to the background:
+
+```vue
+<QrCodeGenerator
+  data="https://example.com"
+  :backgroundOptions="{
+    gradient: {
+      type: 'linear',
+      rotation: 135,
+      colorStops: [
+        { offset: 0, color: '#ffffff' },
+        { offset: 1, color: '#f0f0f0' }
+      ]
+    }
+  }"
+/>
+```
+
+### Multiple Gradients Example
+
+Combine gradients on different elements:
+
+```vue
+<QrCodeGenerator
+  data="https://example.com"
+  :dotsOptions="{
+    gradient: {
+      type: 'linear',
+      rotation: 0,
+      colorStops: [
+        { offset: 0, color: '#667eea' },
+        { offset: 1, color: '#764ba2' }
+      ]
+    }
+  }"
+  :cornersSquareOptions="{
+    gradient: {
+      type: 'linear',
+      rotation: 0,
+      colorStops: [
+        { offset: 0, color: '#f093fb' },
+        { offset: 1, color: '#f5576c' }
+      ]
+    }
+  }"
+  :backgroundOptions="{
+    color: '#ffffff'
+  }"
+/>
+```
+
+<Warning>
+  When using gradients, avoid too many color stops or high contrast combinations that might reduce QR code scannability.
+</Warning>
+
+## Complete Styling Example
+
+Here's a complete example combining multiple styling options from the demo app:
+
+```vue
+<template>
+  <QrCodeGenerator
+    data="https://github.com/jdavidoa91/vue-qr-style"
+    :width="400"
+    :height="400"
+    :margin="10"
+    shape="square"
+    :dotsOptions="{
+      type: 'rounded',
+      color: '#3eaf7c'
+    }"
+    :backgroundOptions="{
+      color: '#ffffff'
+    }"
+    :cornersSquareOptions="{
+      type: 'extra-rounded',
+      color: '#3eaf7c'
+    }"
+    :cornersDotOptions="{
+      type: 'dot',
+      color: '#2c3e50'
+    }"
+  />
+</template>
+
+<script setup>
+import { QrCodeGenerator } from 'vue-qr-style';
+</script>
+```
+
+## Best Practices
+
+1. **Maintain Contrast**: Ensure sufficient contrast between dots and background for reliable scanning
+2. **Test Scanning**: Always test your QR codes with multiple scanner apps before deploying
+3. **Use Appropriate Error Correction**: Higher error correction levels allow for more customization
+4. **Consider the Environment**: Dark QR codes work best on light backgrounds
+5. **Keep It Simple**: While gradients and effects look great, simpler designs often scan more reliably

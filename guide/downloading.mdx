@@ -1,0 +1,375 @@
+---
+title: Downloading QR codes
+description: Export QR codes in multiple formats
+---
+
+Vue QR Style provides powerful download functionality, allowing you to export QR codes in multiple formats programmatically or via user interaction.
+
+## The download() Method
+
+Access the download method through a component ref:
+
+```vue
+<template>
+  <div>
+    <QrCodeGenerator
+      ref="qrGenerator"
+      data="https://example.com"
+    />
+    
+    <button @click="handleDownload">Download QR Code</button>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import { QrCodeGenerator } from 'vue-qr-style';
+
+const qrGenerator = ref(null);
+
+const handleDownload = () => {
+  qrGenerator.value?.download('png');
+};
+</script>
+```
+
+## Supported Formats
+
+Vue QR Style supports four file formats:
+
+### PNG (Recommended)
+
+PNG format offers lossless compression with transparency support:
+
+```javascript
+qrGenerator.value?.download('png');
+```
+
+### SVG (Vector)
+
+SVG format provides scalable vector graphics, ideal for printing:
+
+```javascript
+qrGenerator.value?.download('svg');
+```
+
+<Tip>
+  Use SVG format when you need scalability for different sizes or high-quality printing.
+</Tip>
+
+### JPG (JPEG)
+
+JPG format with lossy compression, smaller file size:
+
+```javascript
+qrGenerator.value?.download('jpg');
+```
+
+### WebP (Modern)
+
+WebP format offers superior compression and quality:
+
+```javascript
+qrGenerator.value?.download('webp');
+```
+
+## Download with Options
+
+Customize the download with a configuration object:
+
+```javascript
+qrGenerator.value?.download({
+  extension: 'png',
+  name: 'my-qr-code'
+});
+```
+
+### Download Options
+
+<ParamField path="extension" type="'svg' | 'png' | 'jpg' | 'webp'" required>
+  The file format for the download.
+</ParamField>
+
+<ParamField path="name" type="string">
+  The filename (without extension). Defaults to 'qr-code'.
+</ParamField>
+
+## Real Example from Demo App
+
+Here's how the Vue QR Style demo app implements downloading:
+
+```vue
+<template>
+  <div>
+    <QrCodeGenerator
+      ref="qrGenerator"
+      v-bind="qrOptions"
+      :data="qrOptions.data"
+    />
+    
+    <div class="download-settings">
+      <input 
+        v-model="downloadOptions.name" 
+        type="text" 
+        placeholder="Filename"
+      />
+      <select v-model="downloadOptions.extension">
+        <option value="png">PNG</option>
+        <option value="svg">SVG</option>
+        <option value="jpg">JPG</option>
+        <option value="webp">WebP</option>
+      </select>
+      <button @click="handleDownload">
+        Download
+      </button>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, reactive } from 'vue';
+import { QrCodeGenerator } from 'vue-qr-style';
+
+const qrGenerator = ref(null);
+
+const downloadOptions = reactive({
+  name: 'my-qr-code',
+  extension: 'png'
+});
+
+const qrOptions = reactive({
+  data: 'https://github.com/jdavidoa91/vue-qr-style',
+  width: 400,
+  height: 400,
+  margin: 10
+});
+
+const handleDownload = () => {
+  qrGenerator.value?.download({
+    extension: downloadOptions.extension,
+    name: downloadOptions.name
+  });
+};
+</script>
+```
+
+## String Shorthand
+
+For simple downloads, pass the extension as a string:
+
+```javascript
+// These are equivalent:
+qrGenerator.value?.download('png');
+
+qrGenerator.value?.download({
+  extension: 'png'
+});
+```
+
+## getRawData() Method
+
+For programmatic access to QR code data without triggering a download, use `getRawData()`:
+
+```vue
+<template>
+  <QrCodeGenerator
+    ref="qrGenerator"
+    data="https://example.com"
+  />
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import { QrCodeGenerator } from 'vue-qr-style';
+
+const qrGenerator = ref(null);
+
+const getQrData = async () => {
+  const blob = await qrGenerator.value?.getRawData('png');
+  
+  if (blob) {
+    // Use the blob data
+    console.log('QR Code blob:', blob);
+  }
+};
+</script>
+```
+
+### getRawData() Usage
+
+The method returns a Promise that resolves to a Blob:
+
+```typescript
+getRawData(extension: FileExtension = 'png'): Promise<Blob | undefined>
+```
+
+## Use Cases for getRawData()
+
+### Upload to Server
+
+```javascript
+const uploadQrCode = async () => {
+  const blob = await qrGenerator.value?.getRawData('png');
+  
+  if (blob) {
+    const formData = new FormData();
+    formData.append('qrcode', blob, 'qrcode.png');
+    
+    await fetch('/api/upload', {
+      method: 'POST',
+      body: formData
+    });
+  }
+};
+```
+
+### Display as Data URL
+
+```javascript
+const displayQrAsImage = async () => {
+  const blob = await qrGenerator.value?.getRawData('png');
+  
+  if (blob) {
+    const url = URL.createObjectURL(blob);
+    // Use the URL in an <img> tag
+    imageElement.src = url;
+  }
+};
+```
+
+### Copy to Clipboard
+
+```javascript
+const copyToClipboard = async () => {
+  const blob = await qrGenerator.value?.getRawData('png');
+  
+  if (blob) {
+    await navigator.clipboard.write([
+      new ClipboardItem({ 'image/png': blob })
+    ]);
+  }
+};
+```
+
+### Save to IndexedDB
+
+```javascript
+const saveToStorage = async () => {
+  const blob = await qrGenerator.value?.getRawData('png');
+  
+  if (blob) {
+    // Store blob in IndexedDB
+    await db.qrCodes.add({
+      id: 'qr-1',
+      data: blob,
+      timestamp: Date.now()
+    });
+  }
+};
+```
+
+## Multiple Download Formats
+
+Provide users with multiple download options:
+
+```vue
+<template>
+  <div>
+    <QrCodeGenerator
+      ref="qrGenerator"
+      data="https://example.com"
+    />
+    
+    <div class="download-buttons">
+      <button @click="download('png')">PNG</button>
+      <button @click="download('svg')">SVG</button>
+      <button @click="download('jpg')">JPG</button>
+      <button @click="download('webp')">WebP</button>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import { QrCodeGenerator } from 'vue-qr-style';
+
+const qrGenerator = ref(null);
+
+const download = (format) => {
+  qrGenerator.value?.download({
+    extension: format,
+    name: `qr-code-${Date.now()}`
+  });
+};
+</script>
+```
+
+## TypeScript Support
+
+Use proper typing for the download methods:
+
+```typescript
+import { ref } from 'vue';
+import { QrCodeGenerator } from 'vue-qr-style';
+import type { FileExtension, DownloadOptions } from 'vue-qr-style';
+
+const qrGenerator = ref<InstanceType<typeof QrCodeGenerator> | null>(null);
+
+const downloadWithOptions = (options: DownloadOptions) => {
+  qrGenerator.value?.download(options);
+};
+
+const downloadByExtension = (ext: FileExtension) => {
+  qrGenerator.value?.download(ext);
+};
+```
+
+## Error Handling
+
+Handle potential errors gracefully:
+
+```javascript
+const handleDownload = async () => {
+  try {
+    if (!qrGenerator.value) {
+      throw new Error('QR Generator not initialized');
+    }
+    
+    qrGenerator.value.download({
+      extension: 'png',
+      name: 'my-qr-code'
+    });
+  } catch (error) {
+    console.error('Download failed:', error);
+    // Show user-friendly error message
+  }
+};
+```
+
+## Best Practices
+
+1. **Use PNG for Web**: Best balance of quality and file size for web use
+2. **Use SVG for Print**: Vector format scales perfectly for any print size
+3. **Add Timestamps**: Include timestamps in filenames for unique downloads:
+   ```javascript
+   download({
+     extension: 'png',
+     name: `qr-${Date.now()}`
+   });
+   ```
+4. **Check Ref Availability**: Always check if the ref is available before calling methods:
+   ```javascript
+   if (qrGenerator.value) {
+     qrGenerator.value.download('png');
+   }
+   ```
+5. **Provide User Feedback**: Show loading states or success messages after downloads
+
+## Format Comparison
+
+| Format | Best For | File Size | Quality | Transparency |
+|--------|----------|-----------|---------|-------------|
+| PNG | Web display | Medium | Lossless | Yes |
+| SVG | Printing | Small | Vector | Yes |
+| JPG | Email/sharing | Small | Lossy | No |
+| WebP | Modern web | Smallest | Excellent | Yes |

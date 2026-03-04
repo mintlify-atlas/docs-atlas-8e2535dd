@@ -1,0 +1,209 @@
+---
+title: Types
+description: TypeScript type definitions
+---
+
+TypeScript type definitions exported by Vue QR Style.
+
+## Import Types
+
+All types are exported from the main package:
+
+```typescript
+import type {
+  DrawType,
+  TypeNumber,
+  Mode,
+  ErrorCorrectionLevel,
+  DotType,
+  CornerSquareType,
+  FileExtension,
+  CornerDotType,
+  QRCodeStylingOptions,
+  DownloadOptions,
+} from 'vue-qr-style'
+```
+
+## Type Definitions
+
+### DrawType
+
+Rendering type for the QR code.
+
+```typescript
+type DrawType = 'canvas' | 'svg'
+```
+
+- `"canvas"` - Renders as HTML canvas element (better performance)
+- `"svg"` - Renders as SVG element (better scaling)
+
+### TypeNumber
+
+QR code version number (size).
+
+```typescript
+type TypeNumber = 0 | 1 | 2 | 3 | ... | 40
+```
+
+- `0` - Auto-detect optimal version based on data length
+- `1-40` - Specific version (1 is smallest, 40 is largest)
+
+### Mode
+
+Encoding mode for QR code data.
+
+```typescript
+type Mode = 'Numeric' | 'Alphanumeric' | 'Byte' | 'Kanji'
+```
+
+- `"Numeric"` - Numbers only (0-9)
+- `"Alphanumeric"` - Numbers and uppercase letters
+- `"Byte"` - Any data (UTF-8)
+- `"Kanji"` - Japanese characters
+
+### ErrorCorrectionLevel
+
+Error correction capability level.
+
+```typescript
+type ErrorCorrectionLevel = 'L' | 'M' | 'Q' | 'H'
+```
+
+- `"L"` - Low (7% error recovery)
+- `"M"` - Medium (15% error recovery)
+- `"Q"` - Quartile (25% error recovery)
+- `"H"` - High (30% error recovery)
+
+Higher levels allow more damage to the QR code while remaining readable, but increase code density.
+
+### DotType
+
+Shape style for QR code dots/pixels.
+
+```typescript
+type DotType = 
+  | 'square'
+  | 'dots' 
+  | 'rounded'
+  | 'extra-rounded'
+  | 'classy'
+  | 'classy-rounded'
+```
+
+### CornerSquareType
+
+Shape style for corner position squares.
+
+```typescript
+type CornerSquareType = 'square' | 'extra-rounded' | 'dot'
+```
+
+### CornerDotType
+
+Shape style for dots inside corner squares.
+
+```typescript
+type CornerDotType = 'square' | 'dot'
+```
+
+### FileExtension
+
+Supported export file formats.
+
+```typescript
+type FileExtension = 'png' | 'jpeg' | 'webp' | 'svg'
+```
+
+## Interface Definitions
+
+### QRCodeStylingOptions
+
+Complete configuration object for QR code styling. This is the full options interface from the underlying `qr-code-styling` library.
+
+```typescript
+interface QRCodeStylingOptions {
+  width?: number
+  height?: number
+  type?: DrawType
+  data?: string
+  image?: string
+  margin?: number
+  qrOptions?: {
+    typeNumber?: TypeNumber
+    mode?: Mode
+    errorCorrectionLevel?: ErrorCorrectionLevel
+  }
+  imageOptions?: {
+    hideBackgroundDots?: boolean
+    imageSize?: number
+    margin?: number
+    crossOrigin?: string
+    saveAsBlob?: boolean
+  }
+  dotsOptions?: {
+    type?: DotType
+    color?: string
+    gradient?: GradientOptions
+  }
+  backgroundOptions?: {
+    color?: string
+    gradient?: GradientOptions
+  }
+  cornersSquareOptions?: {
+    type?: CornerSquareType
+    color?: string
+    gradient?: GradientOptions
+  }
+  cornersDotOptions?: {
+    type?: CornerDotType
+    color?: string
+    gradient?: GradientOptions
+  }
+}
+```
+
+### DownloadOptions
+
+Options for downloading the QR code.
+
+```typescript
+interface DownloadOptions {
+  name?: string         // File name (default: 'qr')
+  extension?: FileExtension  // File format (default: 'png')
+}
+```
+
+**Usage:**
+```typescript
+qrRef.value.download({
+  name: 'my-qr-code',
+  extension: 'svg'
+})
+```
+
+### GradientOptions
+
+Gradient configuration for colors.
+
+```typescript
+interface GradientOptions {
+  type: 'radial' | 'linear'
+  rotation?: number  // Degrees (for linear gradients)
+  colorStops: Array<{
+    offset: number   // 0 to 1
+    color: string    // Hex, RGB, or RGBA
+  }>
+}
+```
+
+**Usage:**
+```typescript
+const gradient = {
+  type: 'linear',
+  rotation: 45,
+  colorStops: [
+    { offset: 0, color: '#ff0000' },
+    { offset: 1, color: '#0000ff' }
+  ]
+}
+```

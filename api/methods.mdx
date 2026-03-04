@@ -1,0 +1,119 @@
+---
+title: Methods
+description: Component methods and exposed API
+---
+
+The `QrCodeGenerator` component exposes methods for programmatic control and data export.
+
+## Accessing Methods
+
+Use template refs to access component methods:
+
+```vue
+<script setup>
+import { ref } from 'vue'
+import { QrCodeGenerator } from 'vue-qr-style'
+
+const qrRef = ref()
+
+const handleDownload = () => {
+  qrRef.value.download('png')
+}
+</script>
+
+<template>
+  <QrCodeGenerator ref="qrRef" data="https://example.com" />
+</template>
+```
+
+## Methods
+
+### download()
+
+Downloads the QR code as a file.
+
+<ParamField path="options" type="DownloadOptions | string">
+  Download configuration. Can be a `DownloadOptions` object or a string file extension.
+  
+  <Expandable title="DownloadOptions">
+    <ParamField path="name" type="string" default="qr">
+      Name of the downloaded file (without extension).
+    </ParamField>
+    
+    <ParamField path="extension" type="FileExtension" default="png">
+      File format: `"png"`, `"jpeg"`, `"webp"`, or `"svg"`.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+**Example - Simple:**
+```typescript
+// Download as PNG with default name
+qrRef.value.download('png')
+```
+
+**Example - Advanced:**
+```typescript
+// Download with custom options
+qrRef.value.download({
+  name: 'my-qr-code',
+  extension: 'svg'
+})
+```
+
+### getRawData()
+
+Returns the QR code as raw data (Promise).
+
+<ParamField path="extension" type="FileExtension" default="png">
+  File format: `"png"`, `"jpeg"`, `"webp"`, or `"svg"`.
+</ParamField>
+
+<ResponseField name="return" type="Promise<Blob | Buffer | null>">
+  Returns a Promise that resolves to the QR code data as a Blob (browser) or Buffer (Node.js).
+</ResponseField>
+
+**Example:**
+```typescript
+// Get QR code as PNG blob
+const blob = await qrRef.value.getRawData('png')
+
+// Upload to server
+const formData = new FormData()
+formData.append('qrcode', blob, 'qrcode.png')
+await fetch('/upload', { method: 'POST', body: formData })
+```
+
+**Example - Convert to Base64:**
+```typescript
+const blob = await qrRef.value.getRawData('png')
+const reader = new FileReader()
+reader.readAsDataURL(blob)
+reader.onloadend = () => {
+  const base64 = reader.result
+  console.log(base64)
+}
+```
+
+### qrCode
+
+Direct access to the underlying `QRCodeStyling` instance.
+
+<ResponseField name="qrCode" type="QRCodeStyling | null">
+  The QRCodeStyling instance. Available after component is mounted. Use with caution for advanced customization.
+</ResponseField>
+
+**Example - Advanced:**
+```typescript
+// Access the underlying library
+const instance = qrRef.value.qrCode
+
+// Call library methods directly
+if (instance) {
+  instance.update({ data: 'new data' })
+}
+```
+
+<Warning>
+  Direct manipulation of `qrCode` bypasses Vue's reactivity system. Use the component's props for standard updates.
+</Warning>
